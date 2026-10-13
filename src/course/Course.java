@@ -40,7 +40,7 @@ public class Course {
       //   the function should create a new Assessment object, 
       //   add it in the assessments list and then return true.
       //else
-      //   the function should only return false.
+      //   the function should only return falsea.
       
       return valid;
    }
