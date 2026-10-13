@@ -29,10 +29,12 @@ public class Course {
                                       String submissionType, boolean group, String groupingName, 
                                       String publishDateTime, String dueDateTime, String hideDateTime) {
       boolean valid = true;
+      //TODO: We need to put a variable in before creating the object that will get the Assessment array length for testing.
       
       //validate the inputed dates. JFB
       if (!dateOrderValidator(hideDateTime, dueDateTime, publishDateTime)) {
-    	    return false;
+    	    valid = false;
+    	    //TODO: Add a check to ensure that the object was not saved if it failed validation
     	}
       
       //TODO: Validate all the provided parameters.
