@@ -30,7 +30,7 @@ public class Course {
                                       String publishDateTime, String dueDateTime, String hideDateTime) {
       boolean valid = true;
       
-      //validate the dates. JFB
+      //validate the inputed dates. JFB
       if (!dateOrderValidator(hideDateTime, dueDateTime, publishDateTime)) {
     	    return false;
     	}
@@ -40,7 +40,7 @@ public class Course {
       //   the function should create a new Assessment object, 
       //   add it in the assessments list and then return true.
       //else
-      //   the function should only return falsea.
+      //   the function should only return false.
       
       return valid;
    }
