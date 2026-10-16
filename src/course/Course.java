@@ -69,6 +69,14 @@ public class Course {
       // Validate the inputed dates. JFB
       if (!dateOrderValidator(hideDateTime, dueDateTime, publishDateTime)) return false;
 
+   // Author: Harsha - Condition 5: a single assessment cannot exceed 50 points
+      if (!isWithinSingleAssessmentLimit(points)) return false;
+      // Author: Harsha - Condition 6: total points across all assessments cannot exceed 100
+      if (!isWithinTotalPointsLimit(points)) return false;
+      // Author: Harsha - Condition 7: submission type must be pdf, zip or doc
+      if (!isValidSubmissionType(submissionType)) return false;
+      // Author: Harsha - Condition 8: a group assessment must provide a grouping name
+      if (!isGroupingValid(group, groupingName)) return false;
       // TODO: other teammates add their guard clauses here, BEFORE the add() below
 
       // Only reached when every check passed: create the object and store it
@@ -99,6 +107,35 @@ public class Course {
    // Author: Christina - Condition 4: points must be greater than 0
    boolean arePointsPositive(int points) {
       return points > 0;
+   }
+   
+// Author: Harsha - Condition 5: a single assessment's points must not exceed 50
+   boolean isWithinSingleAssessmentLimit(int points) {
+      return points <= 50;
+   }
+
+   // Author: Harsha - Condition 6: the running total of all assessments' points
+   // (including the one being created) must not exceed 100
+   boolean isWithinTotalPointsLimit(int newPoints) {
+      int total = newPoints;
+      for (Assessment a : assessments) {
+         total += a.getPoints();
+      }
+      return total <= 100;
+   }
+
+   // Author: Harsha - Condition 7: submission type must be exactly one of
+   // "pdf", "zip" or "doc" (inputs are guaranteed lowercase)
+   boolean isValidSubmissionType(String submissionType) {
+      if (submissionType == null) return false;
+      return submissionType.equals("pdf") || submissionType.equals("zip") || submissionType.equals("doc");
+   }
+
+   // Author: Harsha - Condition 8: a group assessment must be given a non-blank
+   // grouping name; an individual assessment does not need one
+   boolean isGroupingValid(boolean group, String groupingName) {
+      if (!group) return true;
+      return groupingName != null && !groupingName.trim().isEmpty();
    }
 
    // Author Jason (JFB): strict date parsing plus due > publish and hide > due
