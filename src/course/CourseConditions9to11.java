@@ -3,10 +3,64 @@ package course;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-class CourseTest {
+class CourseConditions9to11 {
 	
 	//TODO: Compare the length of the array before and after the object process test with assert = original array length on fail
 
+	@Test
+	void C9acceptsUniqueGroupingName() {
+	    Course course = new Course();
+
+	    assertTrue(course.isGroupingNameUnique(true, "Group A"));
+	}
+	
+	@Test
+	void C9rejectsDuplicateGroupingName() {
+	    Course course = new Course();
+
+	    course.createNewAssessment(
+	        "Assessment 1", "This is assessment one",
+	        20, "pdf", true, "Group A",
+	        "01/11/2026 09:00",
+	        "10/11/2026 09:00",
+	        "20/11/2026 09:00"
+	    );
+
+	    assertFalse(course.isGroupingNameUnique(true, "Group A"));
+	}
+	
+	@Test
+	void C9acceptsIndividualAssessment() {
+	    Course course = new Course();
+
+	    assertTrue(course.isGroupingNameUnique(false, "Group A"));
+	}
+	
+	@Test
+	void C9rejectsDuplicateWithoutAddingAssessment() {
+	    Course course = new Course();
+
+	    course.createNewAssessment(
+	        "Assessment 1", "This is assessment one",
+	        20, "pdf", true, "Group A",
+	        "01/11/2026 09:00",
+	        "10/11/2026 09:00",
+	        "20/11/2026 09:00"
+	    );
+
+	    int originalSize = course.getAssessments().size();
+
+	    assertFalse(course.createNewAssessment(
+	        "Assessment 2", "This is assessment two",
+	        20, "pdf", true, "Group A",
+	        "01/11/2026 09:00",
+	        "10/11/2026 09:00",
+	        "20/11/2026 09:00"
+	    ));
+
+	    assertEquals(originalSize, course.getAssessments().size());
+	}
+	
     @Test
     void C11acceptsValidDatesInOrder() {
         Course course = new Course();
@@ -24,7 +78,7 @@ class CourseTest {
 
         assertFalse(course.dateOrderValidator(
             "23/11/2026 12:01",  // hide
-            "23/11/2026 12:01",  // due
+            "23/11/2026 12:02",  // due
             "23/11/2026 12:00"   // publish
         ));
     }
@@ -83,9 +137,9 @@ class CourseTest {
         Course course = new Course();
 
         assertFalse(course.dateOrderValidator(
-            "23/11/2026 12:01",
-            "23/11/2026 12:01",
-            "23/11/2026 12:00"
+            "23/11/2026 12:01", // hide
+            "23/11/2026 12:01", // due
+            "23/11/2026 12:00" // publish
         ));
     }
 }

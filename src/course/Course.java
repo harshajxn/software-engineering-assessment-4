@@ -66,10 +66,10 @@ public class Course {
       // Author: Christina - Condition 4: points greater than 0
       if (!arePointsPositive(points)) return false;
 
-      // Validate the inputed dates. JFB
+      // Author: Jason Condition 10 and 11. Validate the inputed dates.
       if (!dateOrderValidator(hideDateTime, dueDateTime, publishDateTime)) return false;
 
-   // Author: Harsha - Condition 5: a single assessment cannot exceed 50 points
+      // Author: Harsha - Condition 5: a single assessment cannot exceed 50 points
       if (!isWithinSingleAssessmentLimit(points)) return false;
       // Author: Harsha - Condition 6: total points across all assessments cannot exceed 100
       if (!isWithinTotalPointsLimit(points)) return false;
@@ -77,7 +77,8 @@ public class Course {
       if (!isValidSubmissionType(submissionType)) return false;
       // Author: Harsha - Condition 8: a group assessment must provide a grouping name
       if (!isGroupingValid(group, groupingName)) return false;
-      // TODO: other teammates add their guard clauses here, BEFORE the add() below
+      // Author Jason (JFB): Condition 9: The grouping name must be unique for each assessment.
+      if (!isGroupingNameUnique(group, groupingName)) return false;
 
       // Only reached when every check passed: create the object and store it
       assessments.add(new Assessment(name, description, points, submissionType, group,
@@ -160,4 +161,15 @@ public class Course {
 	   }
 	   
    }
+   // Author Jason (JFB): Condition 9: The grouping name must be unique for each assessment.
+   boolean isGroupingNameUnique(boolean group, String groupingName) {
+	    if (!group) return true;
+
+	    for (Assessment a : assessments) {
+	        if (a.isGroup() && a.getGroupingName().equalsIgnoreCase(groupingName)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
 }
